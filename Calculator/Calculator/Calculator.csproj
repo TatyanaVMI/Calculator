@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{60DCFB00-6348-416A-9A5D-230B2A6D5F0B}</ProjectGuid>
+    <ProjectGuid>{D5285CD3-A2D5-4FB1-96EA-6300A41039D3}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Calculator</RootNamespace>
     <AssemblyName>Calculator</AssemblyName>
@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculator.cs" />
+    <Compile Include="Operations\IOperation.cs" />
+    <Compile Include="Operations\SubtractionOperation.cs" />
+    <Compile Include="Operations\Helper.cs" />
+    <Compile Include="Operations\AdditionOperation.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
