@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Calculator
 {
-    public class Parser
+    public class Parser: IParser
     {
         private readonly IEnumerable<IOperation> _operations;
 

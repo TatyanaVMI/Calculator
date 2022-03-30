@@ -1,6 +1,6 @@
 ﻿namespace Calculator.Operations
 {
-    internal class SubtractionOperation : IOperation
+    public class SubtractionOperation : IOperation
     {
         public char CharRepresentation => '-';
     }

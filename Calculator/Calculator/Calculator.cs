@@ -1,14 +1,17 @@
-﻿using Calculator.Operations;
-using System.Collections.Generic;
-
-namespace Calculator
+﻿namespace Calculator
 {
-    public class Calculator
+    public class Calculator: ICalculator
     {
-    
+        private readonly IParser _parser;
+        
+        public Calculator(IParser parser)
+        {
+            _parser = parser;
+        }
+        
         public decimal Calculate(string expression)
         {
-            var postfixNotationExpression = new Parser(new List<IOperation> { new AdditionOperation(), new SubtractionOperation() }).Parse(expression);
+            var postfixNotationExpression = _parser.Parse(expression);
 
             return 1;
         }

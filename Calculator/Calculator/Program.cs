@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ninject;
+using System;
+using System.Reflection;
 
 namespace Calculator
 {
@@ -6,11 +8,15 @@ namespace Calculator
     {
         static void Main(string[] args)
         {
+            var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            var calculator = kernel.Get<ICalculator>();
+
             while (true)
             {
                 Console.Write("Input: ");
                 var input = Console.ReadLine();
-                var result = new Calculator().Calculate(input);
+                var result = calculator.Calculate(input);
                 Console.WriteLine($"Output: {result}\n");
             }
         }
