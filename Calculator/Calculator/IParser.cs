@@ -4,6 +4,6 @@ namespace Calculator
 {
     public interface IParser
     {
-        string Parse(string expression);
+        List<string> ParseToPostfixNotation(string expression);
     }
 }

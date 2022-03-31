@@ -11,7 +11,7 @@
         
         public decimal Calculate(string expression)
         {
-            var postfixNotationExpression = _parser.Parse(expression);
+            var postfixNotationExpression = _parser.ParseToPostfixNotation(expression);
 
             return 1;
         }
