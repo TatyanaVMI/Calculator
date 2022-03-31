@@ -51,6 +51,8 @@
     <Compile Include="IParser.cs" />
     <Compile Include="NinjectBindings.cs" />
     <Compile Include="Operations\IOperation.cs" />
+    <Compile Include="Operations\IOperationsProvider.cs" />
+    <Compile Include="Operations\OperationsProvider.cs" />
     <Compile Include="Operations\SubtractionOperation.cs" />
     <Compile Include="Operations\Helper.cs" />
     <Compile Include="Operations\AdditionOperation.cs" />

@@ -1,5 +1,4 @@
 ﻿using Calculator.Operations;
-using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -13,7 +12,8 @@ namespace Calculator.Tests
         public void Setup()
         {
             var operations = new List<IOperation> { new AdditionOperation(), new SubtractionOperation() };
-            _parser = new Parser(operations);
+            var operationsProvider = new OperationsProvider(operations);
+            _parser = new Parser(operationsProvider);
         }
 
         [Test]

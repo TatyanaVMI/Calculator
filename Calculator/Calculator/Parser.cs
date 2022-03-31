@@ -1,20 +1,19 @@
 ﻿using Calculator.Operations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Calculator
 {
     public class Parser: IParser
     {
-        private readonly IEnumerable<IOperation> _operations;
+        private readonly IOperationsProvider _operationsProvider;
 
-        private List<string> _output = new List<string>();
-        private Stack<char> _operationsStack = new Stack<char>();
+        private readonly List<string> _output = new List<string>();
+        private readonly Stack<char> _operationsStack = new Stack<char>();
 
-        public Parser(IEnumerable<IOperation> operations)
+        public Parser(IOperationsProvider operationsProvider)
         {
-            _operations = operations;
+            _operationsProvider = operationsProvider;
         }
 
         public List<string> ParseToPostfixNotation(string expression)
@@ -28,7 +27,7 @@ namespace Calculator
                     var numberString = ParseNumber(expression, ref i);
                     _output.Add(numberString);
                 }
-                else if (IsOperation(token))
+                else if (_operationsProvider.IsOperation(token.ToString()))
                 {
                     PushOperationToStack(token);
                 }
@@ -58,13 +57,6 @@ namespace Calculator
             }
 
             return _output;
-        }
-
-        private bool IsOperation(char token)
-        {
-            return _operations
-                .Where(operation => operation.CharRepresentation == token)
-                .Any();
         }
 
         private void PushOperationToStack(char token)

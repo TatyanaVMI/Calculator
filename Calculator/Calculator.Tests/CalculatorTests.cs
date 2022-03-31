@@ -1,24 +1,33 @@
+using Calculator.Operations;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Calculator.Tests
 {
-    public class Tests
+    public class CalculatorTests
     {
+        private readonly Mock<IParser> _parserMock = new Mock<IParser>();
         private ICalculator _calculator;
-        private readonly Mock<Parser> _parser = new Mock<Parser>();
-    
+
         [SetUp]
         public void Setup()
         {
-            _calculator = new Calculator(_parser.Object);
+            var operations = new List<IOperation> { new AdditionOperation(), new SubtractionOperation() };
+            var operationsProvider = new OperationsProvider(operations);
+            _calculator = new Calculator(_parserMock.Object, operationsProvider);
         }
 
-        [TestCase("1+2", 3)]
-        public void Test1(string expression, decimal expectedResult)
+        [Test]
+        public void Test1()
         {
-            var result = _calculator.Calculate(expression);    
-            Assert.AreEqual(result, expectedResult);
+            var inputExpression = "1+2";
+            decimal expectedResult = 3;
+
+            _parserMock.Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == "1+2"))).Returns(new List<string> { "1", "2", "+" });                       
+
+            var result = _calculator.Calculate(inputExpression);    
+            Assert.AreEqual(expectedResult, result);
         }
     }
 }

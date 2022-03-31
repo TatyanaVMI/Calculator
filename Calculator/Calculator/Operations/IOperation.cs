@@ -2,6 +2,8 @@
 {
     public interface IOperation
     {
-        char CharRepresentation { get; }
+        string CharRepresentation { get; }
+
+        decimal Calculate(decimal arg1, decimal arg2);
     }
 }
