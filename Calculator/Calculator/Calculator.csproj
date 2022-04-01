@@ -57,7 +57,6 @@
     <Compile Include="Operations\MultiplyOperation.cs" />
     <Compile Include="Operations\OperationsProvider.cs" />
     <Compile Include="Operations\SubtractionOperation.cs" />
-    <Compile Include="Operations\Helper.cs" />
     <Compile Include="Operations\AdditionOperation.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />

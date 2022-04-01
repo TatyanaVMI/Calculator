@@ -5,5 +5,7 @@
         bool IsOperation(char token);
 
         bool TryGetOperation(string token, out IOperation operation);
+
+        bool TryGetOperation(char token, out IOperation operation);
     }
 }

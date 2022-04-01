@@ -69,7 +69,7 @@ namespace Calculator
         private void PushOperationToStack(char token)
         {
             while (_operationsStack.Count > 0
-                && Helper.OperationPriority[_operationsStack.Peek()] >= Helper.OperationPriority[token])
+                && OperationInStackHasHigherPriority(token))
             {
                 _output.Add(_operationsStack.Pop().ToString());
             }
@@ -98,6 +98,13 @@ namespace Calculator
                 var lastOperation = _operationsStack.Pop().ToString();
                 _output.Add(lastOperation);
             }
+        }
+
+        private bool OperationInStackHasHigherPriority(char token)
+        {
+            return _operationsProvider.TryGetOperation(token, out var currentOperation)
+                && _operationsProvider.TryGetOperation(_operationsStack.Peek(), out var operationInStack)
+                && operationInStack.Priority >= currentOperation.Priority;
         }
     }
 }

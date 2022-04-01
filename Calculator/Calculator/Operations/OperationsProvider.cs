@@ -22,8 +22,18 @@ namespace Calculator.Operations
         public bool TryGetOperation(string tokenString, out IOperation operation)
         {
             operation = null;
-            if (char.TryParse(tokenString, out var token)
-                && IsOperation(token))
+            if (char.TryParse(tokenString, out var token))
+            {
+                return TryGetOperation(token, out operation);
+            }
+
+            return false;
+        }
+
+        public bool TryGetOperation(char token, out IOperation operation)
+        {
+            operation = null;
+            if (IsOperation(token))
             {
                 try
                 {
