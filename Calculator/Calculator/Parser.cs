@@ -42,7 +42,7 @@ namespace Calculator
                 else if (token == ')')
                 {
                     ProcessExpressionInBrackets();
-                    if (_operationsStack.Count > 0 && _operationsStack.Peek() != '(')
+                    if (_operationsStack.Count == 0 || _operationsStack.Peek() != '(')
                     {
                         throw new ArgumentException(Constants.OpenBracketMissedErrorMessage);
                     }
