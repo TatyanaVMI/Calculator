@@ -21,6 +21,10 @@ namespace Calculator
             for (var i = 0; i < expression.Length; i++)
             {
                 var token = expression[i];
+                if (char.IsWhiteSpace(token))
+                {
+                    continue;
+                }
 
                 if (char.IsDigit(token))
                 {
@@ -37,17 +41,20 @@ namespace Calculator
                 }
                 else if (token == ')')
                 {
-                    var lastChar = ProcessExpressionInBrackets();
-                    if (lastChar != "(")
+                    ProcessExpressionInBrackets();
+                    if (_operationsStack.Count > 0 && _operationsStack.Peek() != '(')
                     {
-                        throw new Exception();
+                        throw new ArgumentException(Constants.OpenBracketMissedErrorMessage);
                     }
-
-                    _operationsStack.Pop();
+                    else if (_operationsStack.Count > 0 && _operationsStack.Peek() == '(')
+                    {
+                        _operationsStack.Pop();
+                    }
                 }
                 else
                 {
-                    throw new Exception();
+                    var errorMessage = string.Format(Constants.InvalidTokenErrorMessage, token);
+                    throw new ArgumentException(errorMessage);
                 }
             }
 
@@ -61,12 +68,10 @@ namespace Calculator
 
         private void PushOperationToStack(char token)
         {
-            if (_operationsStack.Count > 0)
+            while (_operationsStack.Count > 0
+                && Helper.OperationPriority[_operationsStack.Peek()] >= Helper.OperationPriority[token])
             {
-                while (Helper.OperationPriority[_operationsStack.Peek()] > Helper.OperationPriority[token])
-                {
-                    _output.Add(_operationsStack.Pop().ToString());
-                }
+                _output.Add(_operationsStack.Pop().ToString());
             }
 
             _operationsStack.Push(token);
@@ -84,19 +89,14 @@ namespace Calculator
             return new string(numberList.ToArray());
         }
 
-        private string ProcessExpressionInBrackets()
+        private void ProcessExpressionInBrackets()
         {
-            var lastChar = string.Empty;
-            if (_operationsStack.Count > 0)
+            while(_operationsStack.Count > 0
+                && _operationsStack.Peek() != '(')
             {
-                while (lastChar != "(")
-                {
-                    lastChar = _operationsStack.Pop().ToString();
-                    _output.Add(lastChar);
-                }
+                var lastOperation = _operationsStack.Pop().ToString();
+                _output.Add(lastOperation);
             }
-
-            return lastChar;
         }
     }
 }

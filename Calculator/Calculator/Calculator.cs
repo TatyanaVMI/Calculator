@@ -1,4 +1,5 @@
 ﻿using Calculator.Operations;
+using System;
 using System.Collections.Generic;
 
 namespace Calculator
@@ -21,16 +22,23 @@ namespace Calculator
             var postfixNotationExpression = _parser.ParseToPostfixNotation(expression);
 
             var numbersStack = new Stack<decimal>();
-            foreach (var expressionItem in postfixNotationExpression)
+            foreach (var token in postfixNotationExpression)
             {
-                if (decimal.TryParse(expressionItem, out var number))
+                if (decimal.TryParse(token, out var number))
                 {
                     numbersStack.Push(number);
                 }
-                else if (_operationsProvider.TryGetOperation(expressionItem, out var operation))
+                else if (_operationsProvider.TryGetOperation(token, out var operation))
                 {
-                    var result = operation.Calculate(numbersStack.Pop(), numbersStack.Pop());
+                    var arg2 = numbersStack.Pop();
+                    var arg1 = numbersStack.Pop();
+                    var result = operation.Calculate(arg1, arg2);
                     numbersStack.Push(result);
+                }
+                else
+                {
+                    var errorMessage = string.Format(Constants.InvalidTokenErrorMessage, token);
+                    throw new ArgumentException(errorMessage);
                 }
             }
 
