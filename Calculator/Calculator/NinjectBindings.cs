@@ -11,6 +11,8 @@ namespace Calculator
             Bind<IParser>().To<Parser>();
             Bind<IOperation>().To<SubtractionOperation>();
             Bind<IOperation>().To<AdditionOperation>();
+            Bind<IOperation>().To<MultiplyOperation>();
+            Bind<IOperation>().To<DivisionOperation>();
             Bind<IOperationsProvider>().To<OperationsProvider>();
         }
     }

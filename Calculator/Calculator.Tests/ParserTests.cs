@@ -11,7 +11,7 @@ namespace Calculator.Tests
         [SetUp]
         public void Setup()
         {
-            var operations = new List<IOperation> { new AdditionOperation(), new SubtractionOperation() };
+            var operations = new List<IOperation> { new AdditionOperation(), new SubtractionOperation(), new MultiplyOperation(), new DivisionOperation() };
             var operationsProvider = new OperationsProvider(operations);
             _parser = new Parser(operationsProvider);
         }
@@ -20,7 +20,7 @@ namespace Calculator.Tests
         public void CheckParsingOfAllOperationTypes()
         {
             var expression = "3+4*2/(1-5)-1";
-            var expectedResult = new string[] { "3", "4", "2", "*", "1", "5", "−", "/", "1", "-" };
+            var expectedResult = new List<string>() { "3", "4", "2", "*", "1", "5", "−", "/", "1", "-" };
             var result = _parser.ParseToPostfixNotation(expression);
             Assert.AreEqual(expectedResult, result);
         }
