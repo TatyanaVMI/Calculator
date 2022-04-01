@@ -16,7 +16,15 @@ namespace Calculator
             {
                 Console.Write("Input: ");
                 var input = Console.ReadLine();
-                var result = calculator.Calculate(input);
+                string result;
+                try
+                {
+                    result = calculator.Calculate(input).ToString();
+                }
+                catch(Exception ex)
+                {
+                    result = ex.Message;
+                }
                 Console.WriteLine($"Output: {result}\n");
             }
         }

@@ -42,5 +42,17 @@ namespace Calculator.Tests
             var result = _calculator.Calculate(inputExpression);
             Assert.AreEqual(expectedResult, result);
         }
+
+        [Test]
+        public void WhenExpressionContainsOnlyNumberShouldReflectIt()
+        {
+            var inputExpression = "2.5";
+            var expectedResult = 2.5;
+
+            _parserMock.Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == "2.5"))).Returns(new List<string>() { "2.5" });
+
+            var result = _calculator.Calculate(inputExpression);
+            Assert.AreEqual(expectedResult, result);
+        }
     }
 }

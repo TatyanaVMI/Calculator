@@ -1,6 +1,7 @@
 ﻿using Calculator.Operations;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Calculator
 {
@@ -24,7 +25,7 @@ namespace Calculator
             var numbersStack = new Stack<decimal>();
             foreach (var token in postfixNotationExpression)
             {
-                if (decimal.TryParse(token, out var number))
+                if (decimal.TryParse(token, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var number))
                 {
                     numbersStack.Push(number);
                 }
