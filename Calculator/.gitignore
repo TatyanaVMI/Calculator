@@ -31,3 +31,4 @@ Ankh.NoLoad
 *.dll
 *.exe
 *.pdb
+**/packages/*
