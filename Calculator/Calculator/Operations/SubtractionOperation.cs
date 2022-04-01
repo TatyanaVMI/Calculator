@@ -2,7 +2,7 @@
 {
     public class SubtractionOperation : IOperation
     {
-        public string CharRepresentation => "-";
+        public char CharRepresentation => '-';
 
         public decimal Calculate(decimal arg1, decimal arg2)
         {

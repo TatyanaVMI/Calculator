@@ -12,17 +12,18 @@ namespace Calculator.Operations
             _operations = operations;
         }
         
-        public bool IsOperation(string token)
+        public bool IsOperation(char token)
         {
             return _operations
                 .Where(operation => operation.CharRepresentation == token)
                 .Any();
         }
 
-        public bool TryGetOperation(string token, out IOperation operation)
+        public bool TryGetOperation(string tokenString, out IOperation operation)
         {
             operation = null;
-            if (IsOperation(token))
+            if (char.TryParse(tokenString, out var token)
+                && IsOperation(token))
             {
                 try
                 {

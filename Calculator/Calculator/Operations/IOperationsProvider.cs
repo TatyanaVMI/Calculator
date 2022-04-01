@@ -2,7 +2,7 @@
 {
     public interface IOperationsProvider
     {
-        bool IsOperation(string token);
+        bool IsOperation(char token);
 
         bool TryGetOperation(string token, out IOperation operation);
     }

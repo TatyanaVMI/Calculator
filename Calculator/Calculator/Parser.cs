@@ -31,7 +31,7 @@ namespace Calculator
                     var numberString = ParseNumber(expression, ref i);
                     _output.Add(numberString);
                 }
-                else if (_operationsProvider.IsOperation(token.ToString()))
+                else if (_operationsProvider.IsOperation(token))
                 {
                     PushOperationToStack(token);
                 }
@@ -80,7 +80,8 @@ namespace Calculator
         private string ParseNumber(string expression, ref int index)
         {
             var numberList = new List<char> { expression[index] };
-            while (index + 1 < expression.Length && (char.IsDigit(expression[index + 1]) || expression[index + 1] == '.'))
+            while (index + 1 < expression.Length
+                && (char.IsDigit(expression[index + 1]) || expression[index + 1] == '.'))
             {
                 numberList.Add(expression[index + 1]);
                 index++;
