@@ -57,7 +57,7 @@ namespace Calculator
                 }
             }
 
-            return numbersStack.Peek();
+            return numbersStack.Pop();
         }
     }  
 }

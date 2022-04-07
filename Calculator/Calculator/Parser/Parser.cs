@@ -19,6 +19,7 @@ namespace Calculator
 
         public List<TokenBase> ParseToPostfixNotation(string expression)
         {
+            Prepare();
             expression = expression.Replace(" ", string.Empty);
             for (var i = 0; i < expression.Length; i++)
             {
@@ -110,6 +111,12 @@ namespace Calculator
             return _operationsProvider.TryGetOperation(token, out var currentOperation)
                 && _operationsProvider.TryGetOperation(_operationsStack.Peek().Value, out var operationInStack)
                 && operationInStack.Priority >= currentOperation.Priority;
+        }
+
+        private void Prepare()
+        {
+            _output.Clear();
+            _operationsStack.Clear();
         }
     }
 }
