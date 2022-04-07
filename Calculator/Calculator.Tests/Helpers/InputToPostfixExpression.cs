@@ -37,6 +37,19 @@ namespace Calculator.Tests.Helpers
                     {
                         new OperandToken(InputExpression.DecimalNumber)
                     }
+                },
+                { InputExpression.ExpressionWithNegativeNumbers, new List<TokenBase>()
+                    {
+                        new OperandToken("2"),
+                        new OperationToken("-", true),
+                        new OperandToken("1"),
+                        new OperandToken("4"),
+                        new OperationToken("-"),
+                        new OperationToken("+"),
+                        new OperandToken("5"),
+                        new OperationToken("-", true),
+                        new OperationToken("+")
+                    }
                 }
             };
         }

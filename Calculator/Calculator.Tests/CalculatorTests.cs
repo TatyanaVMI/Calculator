@@ -15,7 +15,7 @@ namespace Calculator.Tests
         [SetUp]
         public void Setup()
         {
-            var operations = new List<IOperation> { new AdditionOperation(), new SubtractionOperation(), new MultiplyOperation(), new DivisionOperation() };
+            var operations = new List<IOperation> { new AdditionOperation(), new SubtractionOperation(), new MultiplyOperation(), new DivisionOperation(), new UnaryMinusOperation() };
             var operationsProvider = new OperationsProvider(operations);
             _calculator = new Calculator(_parserMock.Object, operationsProvider);
         }
@@ -57,6 +57,20 @@ namespace Calculator.Tests
             _parserMock
                 .Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == InputExpression.DecimalNumber)))
                 .Returns(_inputToPostfix.dictionary[InputExpression.DecimalNumber]);
+
+            var result = _calculator.Calculate(inputExpression);
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void CalculateExpressionWithNegativeNumbers()
+        {
+            var inputExpression = InputExpression.ExpressionWithNegativeNumbers;
+            var expectedResult = -10;
+
+            _parserMock
+                .Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == InputExpression.ExpressionWithNegativeNumbers)))
+                .Returns(_inputToPostfix.dictionary[InputExpression.ExpressionWithNegativeNumbers]);
 
             var result = _calculator.Calculate(inputExpression);
             Assert.AreEqual(expectedResult, result);

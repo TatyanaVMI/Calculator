@@ -2,7 +2,7 @@
 
 namespace Calculator.Operations
 {
-    public class UnaryMinus : IOperation
+    public class UnaryMinusOperation : IOperation
     {
         public char CharRepresentation => '-';
 

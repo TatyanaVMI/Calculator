@@ -7,5 +7,6 @@
         public static string ExpressionWithInvalidCharacter = "1 ~ 1";
         public static string ExpressionWithExtraBracket = "1*(3-1))";
         public static string DecimalNumber = "2.5";
+        public static string ExpressionWithNegativeNumbers = "-2+(1-4)+(-5)";
     }
 }
