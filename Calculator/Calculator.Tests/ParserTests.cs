@@ -1,4 +1,5 @@
 ﻿using Calculator.Operations;
+using Calculator.Tests.Helpers;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ namespace Calculator.Tests
     public class ParserTests
     {
         private Parser _parser;
+        private readonly InputToPostfixExpression _inputToPostfix = new InputToPostfixExpression();
     
         [SetUp]
         public void Setup()
@@ -20,8 +22,8 @@ namespace Calculator.Tests
         [Test]
         public void CheckParsingOfAllOperationTypes()
         {
-            var expression = "3+4*2/(1-5)-1";
-            var expectedResult = new List<string>() { "3", "4", "2", "*", "1", "5", "-", "/", "+", "1", "-" };
+            var expression = InputExpression.ExpressionWithAllOperationTypes;
+            var expectedResult = _inputToPostfix.dictionary[InputExpression.ExpressionWithAllOperationTypes];
             var result = _parser.ParseToPostfixNotation(expression);
             Assert.AreEqual(expectedResult, result);
         }
@@ -29,8 +31,8 @@ namespace Calculator.Tests
         [Test]
         public void WhenExpressionContainsWhiteSpaceShouldIgnoreIt()
         {
-            var expression = "1 + 1";
-            var expectedResult = new List<string>() { "1", "1", "+" };
+            var expression = InputExpression.ExpressionWithSpaces;
+            var expectedResult = _inputToPostfix.dictionary[InputExpression.ExpressionWithSpaces];
             var result = _parser.ParseToPostfixNotation(expression);
             Assert.AreEqual(expectedResult, result);
         }
@@ -38,7 +40,7 @@ namespace Calculator.Tests
         [Test]
         public void WhenExpressionContainsInvalidCharShouldThrowEx()
         {
-            var expression = "1 ~ 1";
+            var expression = InputExpression.ExpressionWithInvalidCharacter;
 
             Assert.Throws<ArgumentException>(() => _parser.ParseToPostfixNotation(expression));
         }
@@ -46,7 +48,7 @@ namespace Calculator.Tests
         [Test]
         public void WhenExpressionContainsExtraBracketShouldThrowEx()
         {
-            var expression = "1*(3-1))";
+            var expression = InputExpression.ExpressionWithExtraBracket;
 
             Assert.Throws<ArgumentException>(() => _parser.ParseToPostfixNotation(expression));
         }

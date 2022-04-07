@@ -1,7 +1,7 @@
 ﻿using Calculator.Operations;
+using Calculator.Tests.Helpers;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 
 namespace Calculator.Tests
@@ -9,6 +9,7 @@ namespace Calculator.Tests
     public class CalculatorTests
     {
         private readonly Mock<IParser> _parserMock = new Mock<IParser>();
+        private readonly InputToPostfixExpression _inputToPostfix = new InputToPostfixExpression();
         private ICalculator _calculator;
 
         [SetUp]
@@ -22,10 +23,12 @@ namespace Calculator.Tests
         [Test]
         public void Calculate1Plus2Return3()
         {
-            var inputExpression = "1+2";
+            var inputExpression = InputExpression.ExpressionWithSpaces;
             decimal expectedResult = 3;
 
-            _parserMock.Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == "1+2"))).Returns(new List<string> { "1", "2", "+" });                       
+            _parserMock
+                .Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == InputExpression.ExpressionWithSpaces)))
+                .Returns(_inputToPostfix.dictionary[InputExpression.ExpressionWithSpaces]);                       
 
             var result = _calculator.Calculate(inputExpression);
             Assert.AreEqual(expectedResult, result);
@@ -34,10 +37,12 @@ namespace Calculator.Tests
         [Test]
         public void CalculateComplexExpression()
         {
-            var inputExpression = "3+4*2/(1-5)-1";
+            var inputExpression = InputExpression.ExpressionWithAllOperationTypes;
             decimal expectedResult = 0;
 
-            _parserMock.Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == "3+4*2/(1-5)-1"))).Returns(new List<string>() { "3", "4", "2", "*", "1", "5", "-", "/", "+", "1", "-" });
+            _parserMock
+                .Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == InputExpression.ExpressionWithAllOperationTypes)))
+                .Returns(_inputToPostfix.dictionary[InputExpression.ExpressionWithAllOperationTypes]);
 
             var result = _calculator.Calculate(inputExpression);
             Assert.AreEqual(expectedResult, result);
@@ -46,10 +51,12 @@ namespace Calculator.Tests
         [Test]
         public void WhenExpressionContainsOnlyNumberShouldReflectIt()
         {
-            var inputExpression = "2.5";
+            var inputExpression = InputExpression.DecimalNumber;
             var expectedResult = 2.5;
 
-            _parserMock.Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == "2.5"))).Returns(new List<string>() { "2.5" });
+            _parserMock
+                .Setup(m => m.ParseToPostfixNotation(It.Is<string>(s => s == InputExpression.DecimalNumber)))
+                .Returns(_inputToPostfix.dictionary[InputExpression.DecimalNumber]);
 
             var result = _calculator.Calculate(inputExpression);
             Assert.AreEqual(expectedResult, result);

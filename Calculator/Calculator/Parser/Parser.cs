@@ -74,7 +74,8 @@ namespace Calculator
             }
 
             var isUnaryOperator = true;
-            if (tokenIndex > 0 && char.IsDigit(expression[tokenIndex - 1]))
+            if (tokenIndex > 0
+                && (char.IsDigit(expression[tokenIndex - 1]) || expression[tokenIndex - 1] == ')'))
             {
                 isUnaryOperator = false;
             }

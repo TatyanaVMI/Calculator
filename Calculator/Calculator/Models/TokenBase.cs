@@ -8,5 +8,10 @@
         {
             Value = value;
         }
+
+        public override bool Equals(object obj)
+        {
+            return Value == (obj as TokenBase).Value;
+        }
     }
 }

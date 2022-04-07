@@ -8,5 +8,11 @@
         {
             IsUnary = isUnary;
         }
+
+        public override bool Equals(object obj)
+        {
+            return IsUnary == (obj as OperationToken).IsUnary
+                && base.Equals(obj);
+        }
     }
 }
