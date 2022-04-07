@@ -1,4 +1,6 @@
-﻿namespace Calculator.Operations
+﻿using System.Collections.Generic;
+
+namespace Calculator.Operations
 {
     public class AdditionOperation : IOperation
     {
@@ -6,9 +8,11 @@
 
         public int Priority => 1;
 
-        public decimal Calculate(decimal arg1, decimal arg2)
+        public bool IsUnary => false;
+
+        public decimal Calculate(List<decimal> arguments)
         {
-            return arg1 + arg2;
+            return arguments[0] + arguments[1];
         }
     }
 }

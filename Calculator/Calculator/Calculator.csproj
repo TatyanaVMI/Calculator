@@ -49,6 +49,11 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Calculator\ICalculator.cs" />
     <Compile Include="Calculator\Calculator.cs" />
+    <Compile Include="Models\BracketToken.cs" />
+    <Compile Include="Models\OperandToken.cs" />
+    <Compile Include="Models\TokenBase.cs" />
+    <Compile Include="Models\OperationToken.cs" />
+    <Compile Include="Operations\UnaryMinus.cs" />
     <Compile Include="Parser\IParser.cs" />
     <Compile Include="NinjectBindings.cs" />
     <Compile Include="Operations\DivisionOperation.cs" />

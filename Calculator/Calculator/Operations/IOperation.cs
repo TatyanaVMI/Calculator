@@ -1,4 +1,6 @@
-﻿namespace Calculator.Operations
+﻿using System.Collections.Generic;
+
+namespace Calculator.Operations
 {
     public interface IOperation
     {
@@ -6,6 +8,8 @@
 
         int Priority { get; }
 
-        decimal Calculate(decimal arg1, decimal arg2);
+        bool IsUnary { get; }
+
+        decimal Calculate(List<decimal> arguments);
     }
 }

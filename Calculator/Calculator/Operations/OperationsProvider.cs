@@ -19,18 +19,18 @@ namespace Calculator.Operations
                 .Any();
         }
 
-        public bool TryGetOperation(string tokenString, out IOperation operation)
+        public bool TryGetOperation(string tokenString, out IOperation operation, bool isUnary = false)
         {
             operation = null;
             if (char.TryParse(tokenString, out var token))
             {
-                return TryGetOperation(token, out operation);
+                return TryGetOperation(token, out operation, isUnary);
             }
 
             return false;
         }
 
-        public bool TryGetOperation(char token, out IOperation operation)
+        public bool TryGetOperation(char token, out IOperation operation, bool isUnary = false)
         {
             operation = null;
             if (IsOperation(token))
@@ -38,7 +38,8 @@ namespace Calculator.Operations
                 try
                 {
                     operation = _operations
-                       .Where(op => op.CharRepresentation == token)
+                       .Where(op => op.CharRepresentation == token
+                            && op.IsUnary == isUnary)
                        .Single();
                 }
                 catch

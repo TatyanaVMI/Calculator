@@ -1,4 +1,5 @@
-﻿using Calculator.Operations;
+﻿using Calculator.Models;
+using Calculator.Operations;
 using System;
 using System.Collections.Generic;
 
@@ -8,45 +9,43 @@ namespace Calculator
     {
         private readonly IOperationsProvider _operationsProvider;
 
-        private readonly List<string> _output = new List<string>();
-        private readonly Stack<char> _operationsStack = new Stack<char>();
+        private readonly List<TokenBase> _output = new List<TokenBase>();
+        private readonly Stack<TokenBase> _operationsStack = new Stack<TokenBase>();
 
         public Parser(IOperationsProvider operationsProvider)
         {
             _operationsProvider = operationsProvider;
         }
 
-        public List<string> ParseToPostfixNotation(string expression)
+        public List<TokenBase> ParseToPostfixNotation(string expression)
         {
+            expression = expression.Replace(" ", string.Empty);
             for (var i = 0; i < expression.Length; i++)
             {
                 var token = expression[i];
-                if (char.IsWhiteSpace(token))
-                {
-                    continue;
-                }
 
                 if (char.IsDigit(token))
                 {
                     var numberString = ParseNumber(expression, ref i);
-                    _output.Add(numberString);
+                    var expressionToken = new OperandToken(numberString);
+                    _output.Add(expressionToken);
                 }
                 else if (_operationsProvider.IsOperation(token))
                 {
-                    PushOperationToStack(token);
+                    PushOperationToStack(token, expression, i);
                 }
                 else if (token == '(')
                 {
-                    _operationsStack.Push(token);
+                    _operationsStack.Push(new BracketToken(token.ToString()));
                 }
                 else if (token == ')')
                 {
                     ProcessExpressionInBrackets();
-                    if (_operationsStack.Count == 0 || _operationsStack.Peek() != '(')
+                    if (_operationsStack.Count == 0 || _operationsStack.Peek().Value != "(")
                     {
                         throw new ArgumentException(Constants.OpenBracketMissedErrorMessage);
                     }
-                    else if (_operationsStack.Count > 0 && _operationsStack.Peek() == '(')
+                    else if (_operationsStack.Count > 0 && _operationsStack.Peek().Value == "(")
                     {
                         _operationsStack.Pop();
                     }
@@ -60,21 +59,27 @@ namespace Calculator
 
             while (_operationsStack.Count > 0)
             {
-                _output.Add(_operationsStack.Pop().ToString());
+                _output.Add(_operationsStack.Pop());
             }
 
             return _output;
         }
 
-        private void PushOperationToStack(char token)
+        private void PushOperationToStack(char token, string expression, int tokenIndex)
         {
             while (_operationsStack.Count > 0
                 && OperationInStackHasHigherPriority(token))
             {
-                _output.Add(_operationsStack.Pop().ToString());
+                _output.Add(_operationsStack.Pop());
             }
 
-            _operationsStack.Push(token);
+            var isUnaryOperator = true;
+            if (tokenIndex > 0 && char.IsDigit(expression[tokenIndex - 1]))
+            {
+                isUnaryOperator = false;
+            }
+
+            _operationsStack.Push(new OperationToken(token.ToString(), isUnaryOperator));
         }
 
         private string ParseNumber(string expression, ref int index)
@@ -93,17 +98,16 @@ namespace Calculator
         private void ProcessExpressionInBrackets()
         {
             while(_operationsStack.Count > 0
-                && _operationsStack.Peek() != '(')
+                && _operationsStack.Peek().Value != "(")
             {
-                var lastOperation = _operationsStack.Pop().ToString();
-                _output.Add(lastOperation);
+                _output.Add(_operationsStack.Pop());
             }
         }
 
         private bool OperationInStackHasHigherPriority(char token)
         {
             return _operationsProvider.TryGetOperation(token, out var currentOperation)
-                && _operationsProvider.TryGetOperation(_operationsStack.Peek(), out var operationInStack)
+                && _operationsProvider.TryGetOperation(_operationsStack.Peek().Value, out var operationInStack)
                 && operationInStack.Priority >= currentOperation.Priority;
         }
     }

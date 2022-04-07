@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Calculator.Models;
+using System.Collections.Generic;
 
 namespace Calculator
 {
     public interface IParser
     {
-        List<string> ParseToPostfixNotation(string expression);
+        List<TokenBase> ParseToPostfixNotation(string expression);
     }
 }

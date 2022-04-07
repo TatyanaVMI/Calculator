@@ -13,6 +13,7 @@ namespace Calculator
             Bind<IOperation>().To<AdditionOperation>();
             Bind<IOperation>().To<MultiplyOperation>();
             Bind<IOperation>().To<DivisionOperation>();
+            Bind<IOperation>().To<UnaryMinus>();
             Bind<IOperationsProvider>().To<OperationsProvider>();
         }
     }
