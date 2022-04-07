@@ -1,5 +1,6 @@
 ﻿using Calculator.Operations;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Calculator.Tests
 {
@@ -10,7 +11,7 @@ namespace Calculator.Tests
         {
             var operation = new AdditionOperation();
             
-            var result = operation.Calculate(2, 2);
+            var result = operation.Calculate(new List<decimal>() { 2, 2 });
 
             Assert.AreEqual(4, result);
         }
